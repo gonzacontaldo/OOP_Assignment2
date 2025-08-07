@@ -114,7 +114,7 @@ namespace Assignment2
         {
             SelectedIndex = 0;
             Prompt =
-                "===============================\n"
+                  "===============================\n"
                 + "        Game Shop Panel\n"
                 + "===============================\n\n"
                 + "Use UP/DOWN arrows to navigate\n"
@@ -145,7 +145,8 @@ namespace Assignment2
                         break;
                     case 3:
                         string aboutPage =
-                            "========================================\n"
+                             "                              About                              " 
+                            +"\n=============================================================\n"
                             + "Version     : 1.0.0\n"
                             + "Developed by: Beray Erdogan, Berhan Erdogan, Gonzalo Contaldo\n"
                             + "Date        : August 2025\n"
@@ -160,7 +161,7 @@ namespace Assignment2
                             + "- ESC        : Go Back\n"
                             + "\n"
                             + "Thank you for using our system!\n"
-                            + "========================================";
+                            + "==============================================================";
                         WriteLine(aboutPage);
                         WriteLine("Press [ESC] to go back...");
                         WaitForEsc();
@@ -176,14 +177,17 @@ namespace Assignment2
             SelectedIndex = 0;
             Clear();
             Menu searchMenu = new Menu(
-                "=========== Search Menu ===========\n\n" +
-                "Use UP/DOWN arrows to navigate\n" +
-                "Press [ENTER] to select\n",
-                new string[] { "Search by ID", "Search by Price", "Back" }
+                  "===============================\n"
+                + "          Search Menu\n"
+                + "===============================\n\n" +
+                  "Use UP/DOWN arrows to navigate\n" +
+                  "Press [ENTER] to select\n",
+                new string[] { "Search by ID", "Search by Price","Back"}
             );
             while (true)
             {
                 int selectedSearchIndex = searchMenu.Display();
+
                 switch (selectedSearchIndex)
                 {
                     case 0:
@@ -201,6 +205,7 @@ namespace Assignment2
                     case 2:
                         return;
                 }
+
             }
         }
         private void DisplayOptions()
@@ -240,25 +245,26 @@ namespace Assignment2
                 }
 
 
-                if (SelectedIndex > 4)
+                if (SelectedIndex > Options.Length - 1)
                 {
                     SelectedIndex = 0;
                 }
                 else if (SelectedIndex < 0)
                 {
-                    SelectedIndex = 4;
+                    SelectedIndex = Options.Length - 1;
                 }
             } while (pressedKey.Key != ConsoleKey.Enter);
             return SelectedIndex;
 
         }
-        public void WaitForEsc()
+        public static bool WaitForEsc()
         {
             ConsoleKeyInfo esc;
             do
             {
                 esc = Console.ReadKey(true);
             } while (esc.Key != ConsoleKey.Escape);
+            return true;
         }
     }
 
@@ -298,21 +304,108 @@ namespace Assignment2
         public static Game? addGame()
         {
             //user enters following data manually
-            WriteLine("Please enter the item name: ");
-            string newItemName = ReadLine();
 
-            WriteLine("Please enter the item price: ");
-            decimal newItemPrice = Convert.ToDecimal(ReadLine());
+            const string AddItemHeader =
+            "===============================\n"
+            + "          Add Item\n"
+            + "===============================\n\n";
+            string newItemName;
+            decimal newItemPrice;
+            float newItemRating;
+            int newItemStock;
+        
+            WriteLine(AddItemHeader);
+            while (true)
+            {
+                WriteLine("Please enter the item name:");
+                newItemName = ReadLine();
+                if (string.IsNullOrWhiteSpace(newItemName))
+                {
+                    WriteLine("Invalid name. Try again.\n");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Clear();
 
-            WriteLine("Please enter the item rating: ");
-            float newItemRating = float.Parse(ReadLine());
+            WriteLine(AddItemHeader);
+            while (true)
+            {
+                WriteLine("Please enter the item price: ");
+                decimal.TryParse(ReadLine(), out newItemPrice);
+                if (newItemPrice <= 0)
+                {
+                    WriteLine("Invalid price. Try Again.\n\n");
+                }
+                else
+                {
+                    break;
+                }  
+            }
+            Clear();
 
+
+            WriteLine(AddItemHeader);
+            while (true)
+            {
+                WriteLine("Please enter the rating (1 to 10): ");
+                float.TryParse(ReadLine(), out newItemRating);
+                if (newItemRating <1 || newItemRating > 10)
+                {
+                    WriteLine("Invalid rating. Try Again.\n\n");
+                }
+                else
+                {
+                    break;
+                }  
+            }
+            Clear();
+
+            WriteLine(AddItemHeader);
+            while (true)
+            {
+                WriteLine("Please enter item stock: ");
+                int.TryParse(ReadLine(), out newItemStock);
+                if (newItemStock == 0)
+                {
+                    WriteLine("Invalid stock. Try Again.\n\n");
+                }
+                else
+                {
+                    break;
+                }  
+            }
+            Clear();
+
+                
+                
+        
+
+    
+                /*
             WriteLine("Please enter the item stock: ");
-            int newItemStock = Convert.ToInt32(ReadLine());
+            newItemStock = Convert.ToInt32(ReadLine());
+            Clear();
+            */
 
+            Menu addItemMenu = new Menu("===============================\n"
+                                    + "          Add Item\n"
+                                    + "===============================\n\n"
+                                    +"Use UP/DOWN arrows to navigate\n" 
+                                    +"Press [ENTER] to select\n\n"
+                                    + "Do you want to add this item ?\n\n"
+                                    + $"Name: {newItemName}\nPrice: {newItemPrice}$\nRating {newItemRating}/10\nStock: {newItemStock}\n"
+                                    , ["Yes", "No"]);
+            int itemMenuSelectedIndex = addItemMenu.Display();
+            if (itemMenuSelectedIndex == 1)
+            {
+                return null;
+            }
+        
+        
             string fileName = "VideoGames.txt";
-
-
             //newItemID automatically assigned
             int lineCount = 0;
             using StreamReader st = new StreamReader("VideoGames.txt");
@@ -344,8 +437,23 @@ namespace Assignment2
 
         public static Game? searchByID()
         {
-            WriteLine("Please enter the item ID: ");
-            int searchItemID = Convert.ToInt32(ReadLine());
+            WriteLine("===============================\n"
+                     + "          Search Menu\n"
+                    + "===============================\n\n");
+            int searchItemID;
+            while (true)
+            {
+                WriteLine("Please enter the 4 digit item ID: ");
+                int.TryParse(ReadLine(), out searchItemID);
+                if (searchItemID < 1000)
+                {
+                    WriteLine("Invalid ID. Try Again.\n\n");
+                }
+                else
+                {
+                    break;
+                }  
+            }
 
             List<Game> gameListForSearch = CreateGameList();
             foreach (Game game in gameListForSearch)
@@ -371,17 +479,31 @@ namespace Assignment2
 
         public static void searchByPrice()
         {
-            WriteLine("Please enter max price: ");
-            decimal searchMaxPrice = Convert.ToDecimal(ReadLine());
-
-
+            WriteLine("===============================\n"
+                + "          Search Menu\n"
+                + "===============================\n\n");
+            decimal searchMaxPrice;
+            while (true)
+            {
+                WriteLine("Please enter max price: ");
+                decimal.TryParse(ReadLine(), out searchMaxPrice);
+                if (searchMaxPrice <= 0)
+                {
+                    WriteLine("Invalid price. Try Again.\n\n");
+                }
+                else
+                {
+                    break;
+                }  
+            }
+            Clear();
             List<Game> gameListForSearch = CreateGameList();
             Clear();
             WriteLine("        Search Results      ");
             WriteLine("===============================");
             foreach (Game game in gameListForSearch)
             {
-                if (game.GetPrice() < searchMaxPrice)
+                if (game.GetPrice() <= searchMaxPrice)
                 {
                     WriteLine(game.GetItemName());
                     WriteLine($"Price: {game.GetPrice()}");
@@ -409,8 +531,9 @@ namespace Assignment2
             WriteLine($"Average Game Price       : ${priceTotal / gameList.Count:F2}");
             WriteLine($"Highest Priced Game      : {gameList[gameList.Count - 1].GetItemName()} (${gameList[gameList.Count - 1].GetPrice():F2})");
             WriteLine($"Lowest Priced Game       : {gameList[0].GetItemName()} (${gameList[0].GetPrice():F2})");
+            WriteLine("\nThank you for choosing our store!");
             WriteLine("==============================================");
-            WriteLine("Thank you for choosing our store!");
+            
         }
     }
 }

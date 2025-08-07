@@ -8,19 +8,19 @@
     "net9.0": []
   },
   "packageFolders": {
-    "/home/sourpatch/.nuget/packages/": {}
+    "/home/kindzmarauli/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/sourpatch/comp/comp1202/final/OOP_Assignment2/Assignment2/Assignment2.csproj",
+      "projectUniqueName": "/home/kindzmarauli/OOP_Assignment2/Assignment2/Assignment2.csproj",
       "projectName": "Assignment2",
-      "projectPath": "/home/sourpatch/comp/comp1202/final/OOP_Assignment2/Assignment2/Assignment2.csproj",
-      "packagesPath": "/home/sourpatch/.nuget/packages/",
-      "outputPath": "/home/sourpatch/comp/comp1202/final/OOP_Assignment2/Assignment2/obj/",
+      "projectPath": "/home/kindzmarauli/OOP_Assignment2/Assignment2/Assignment2.csproj",
+      "packagesPath": "/home/kindzmarauli/.nuget/packages/",
+      "outputPath": "/home/kindzmarauli/OOP_Assignment2/Assignment2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/sourpatch/.nuget/NuGet/NuGet.Config"
+        "/home/kindzmarauli/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -65,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/sourpatch/dotnet9/sdk/9.0.303/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
