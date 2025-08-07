@@ -1,0 +1,67 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/sourpatch/comp/comp1202/final/OOP_Assignment2/Assignment2/Assignment2.csproj": {}
+  },
+  "projects": {
+    "/home/sourpatch/comp/comp1202/final/OOP_Assignment2/Assignment2/Assignment2.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/sourpatch/comp/comp1202/final/OOP_Assignment2/Assignment2/Assignment2.csproj",
+        "projectName": "Assignment2",
+        "projectPath": "/home/sourpatch/comp/comp1202/final/OOP_Assignment2/Assignment2/Assignment2.csproj",
+        "packagesPath": "/home/sourpatch/.nuget/packages/",
+        "outputPath": "/home/sourpatch/comp/comp1202/final/OOP_Assignment2/Assignment2/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/sourpatch/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/sourpatch/dotnet9/sdk/9.0.303/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,21 +1,37 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using static System.Console;
 
 namespace Assignment2
 {
     internal class Program
     {
-        static string filePath = "VideoGames.txt";
+
         static void Main(string[] args)
+        {
+            //load the stream
+            ReadStream.Stream();
+            //load menu
+            Menu mainMenu = new Menu();
+        }
+    }
+
+    /*===========================================Main================================================================*/
+
+
+    internal class ReadStream
+    {
+        static string filePath = "VideoGames.txt";
+        public static void Stream()
         {
             string[] lines;
             StreamReader myFileContent = new StreamReader(filePath);
-            
+
             lines = myFileContent.ReadToEnd().Split('\n');
-            
+
             myFileContent.Close();
-            
+
             Game[] games = new Game[lines.Length];
 
             for (int i = 0; i < lines.Length; i++)
@@ -34,21 +50,9 @@ namespace Assignment2
                     int.Parse(gameProperties[4])
                 );
             }
-            
-            // Display all games using ToString()
-            Console.WriteLine("Video Game Inventory:\n");
-            for (int i = 0; i < games.Length; i++)
-            {
-                if (games[i] != null)
-                {
-                    Console.WriteLine($"{i + 1}. {games[i].ToString()}");
-                }
-            }
-
-            Console.ReadKey();
-
         }
     }
+    /*=========================================== Stream  ================================================================*/
 
     internal class Game
     {
@@ -88,6 +92,326 @@ namespace Assignment2
         {
             return $"{itemNumber} | {itemName} | ${itemPrice:F2} | Rating: {userRating}/5 | Stock: {itemStock}";
         }
-        
+
+    }
+
+    /*===========================================Game================================================================*/
+
+    internal class Menu
+    {
+        private int SelectedIndex;
+        private string[] Options;
+        private string Prompt;
+        private string[] searchOptions;
+
+        public Menu(string prompt, string[] options)
+        {
+            Prompt = prompt;
+            Options = options;
+            SelectedIndex = 0;
+        }
+        public Menu()
+        {
+            SelectedIndex = 0;
+            Prompt =
+                "===============================\n"
+                + "        Game Shop Panel\n"
+                + "===============================\n\n"
+                + "Use UP/DOWN arrows to navigate\n"
+                + "Press [ENTER] to select\n";
+
+            Options = ["Add Products", "Search Products", "Shop Analytics", "About", "Exit"];
+
+            while (true)
+            {
+                int selectedIndex = Display();
+                Clear();
+                switch (selectedIndex)
+                {
+                    case 0:
+                        HandleData.addGame();
+                        WriteLine("Press [ESC] to go back...");
+                        WaitForEsc();
+                        break;
+                    case 1:
+                        //HandleData.searchByID();
+                        //HandleData.searchByPrice();
+                        SearchMenu();
+                        break;
+                    case 2:
+                        HandleData.Analytics();
+                        WriteLine("Press [ESC] to go back...");
+                        WaitForEsc();
+                        break;
+                    case 3:
+                        string aboutPage =
+                            "========================================\n"
+                            + "Version     : 1.0.0\n"
+                            + "Developed by: Beray Erdogan, Berhan Erdogan, Gonzalo Contaldo\n"
+                            + "Date        : August 2025\n"
+                            + "\n"
+                            + "This project was created as part of\n"
+                            + "a OOP assignment to manage\n"
+                            + "a video game store inventory.\n"
+                            + "\n"
+                            + "Controls:\n"
+                            + "- UP / DOWN  : Navigate Menu\n"
+                            + "- ENTER      : Select Option\n"
+                            + "- ESC        : Go Back\n"
+                            + "\n"
+                            + "Thank you for using our system!\n"
+                            + "========================================";
+                        WriteLine(aboutPage);
+                        WriteLine("Press [ESC] to go back...");
+                        WaitForEsc();
+                        break;
+                    case 4:
+                        return;
+                }
+            }
+        }
+
+        public void SearchMenu()
+        {
+            SelectedIndex = 0;
+            Clear();
+            Menu searchMenu = new Menu(
+                "=========== Search Menu ===========\n\n" +
+                "Use UP/DOWN arrows to navigate\n" +
+                "Press [ENTER] to select\n",
+                new string[] { "Search by ID", "Search by Price", "Back" }
+            );
+            while (true)
+            {
+                int selectedSearchIndex = searchMenu.Display();
+                switch (selectedSearchIndex)
+                {
+                    case 0:
+                        Clear();
+                        HandleData.searchByID();
+                        WriteLine("Press [ESC] to go back...");
+                        WaitForEsc();
+                        break;
+                    case 1:
+                        Clear();
+                        HandleData.searchByPrice();
+                        WriteLine("Press [ESC] to go back...");
+                        WaitForEsc();
+                        break;
+                    case 2:
+                        return;
+                }
+            }
+        }
+        private void DisplayOptions()
+        {
+            WriteLine(Prompt);
+            for (int i = 0; i < Options.Length; i++)
+            {
+                string currentOption = Options[i];
+                if (SelectedIndex == i)
+                {
+                    ForegroundColor = ConsoleColor.Black;
+                    BackgroundColor = ConsoleColor.White;
+                    WriteLine($"{i + 1}. >>{currentOption}<<");
+                    ResetColor();
+                }
+                else
+                {
+                    WriteLine($"{i + 1}. {currentOption}");
+                }
+            }
+        }
+        public int Display()
+        {
+            ConsoleKeyInfo pressedKey;
+            do
+            {
+                Clear();
+                DisplayOptions();
+                pressedKey = ReadKey(true);
+                if (pressedKey.Key == ConsoleKey.UpArrow)
+                {
+                    SelectedIndex -= 1;
+                }
+                else if (pressedKey.Key == ConsoleKey.DownArrow)
+                {
+                    SelectedIndex += 1;
+                }
+
+
+                if (SelectedIndex > 4)
+                {
+                    SelectedIndex = 0;
+                }
+                else if (SelectedIndex < 0)
+                {
+                    SelectedIndex = 4;
+                }
+            } while (pressedKey.Key != ConsoleKey.Enter);
+            return SelectedIndex;
+
+        }
+        public void WaitForEsc()
+        {
+            ConsoleKeyInfo esc;
+            do
+            {
+                esc = Console.ReadKey(true);
+            } while (esc.Key != ConsoleKey.Escape);
+        }
+    }
+
+    /*===========================================Menu================================================================*/
+
+    internal class HandleData
+    {
+        public static List<Game> CreateGameList()
+        {
+            List<Game> gameList = new List<Game>();
+
+            try
+            {
+                using StreamReader reader = new StreamReader("VideoGames.txt");
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] gameProperties = line.Trim().Split(',');
+                    int id = int.Parse(gameProperties[0].Trim());
+                    string name = gameProperties[1].Trim();
+                    decimal price = decimal.Parse(gameProperties[2].Trim());
+                    float rating = float.Parse(gameProperties[3].Trim());
+                    int stock = int.Parse(gameProperties[4].Trim());
+
+                    Game game = new Game(id, name, price, rating, stock);
+                    gameList.Add(game);
+                }
+            }
+            catch (Exception exception)
+            {
+                WriteLine($"Error: {exception.Message}");
+            }
+
+            return gameList;
+        }
+
+        public static Game? addGame()
+        {
+            //user enters following data manually
+            WriteLine("Please enter the item name: ");
+            string newItemName = ReadLine();
+
+            WriteLine("Please enter the item price: ");
+            decimal newItemPrice = Convert.ToDecimal(ReadLine());
+
+            WriteLine("Please enter the item rating: ");
+            float newItemRating = float.Parse(ReadLine());
+
+            WriteLine("Please enter the item stock: ");
+            int newItemStock = Convert.ToInt32(ReadLine());
+
+            string fileName = "VideoGames.txt";
+
+
+            //newItemID automatically assigned
+            int lineCount = 0;
+            using StreamReader st = new StreamReader("VideoGames.txt");
+            while (st.ReadLine() != null)
+            {
+                lineCount++;
+            }
+            int newItemID = lineCount + 1001;
+
+            try
+            {
+                using StreamWriter writer = new StreamWriter(fileName, true);
+                writer.WriteLine($"{newItemID}, {newItemName}, {newItemPrice}, {newItemRating}, {newItemStock}");
+
+            }
+            catch (Exception exception)
+            {
+                WriteLine($"Error: {exception.Message}");
+                return null;
+            }
+            Clear();
+            WriteLine("           New Item            ");
+            WriteLine("===============================");
+            WriteLine($"{newItemName} is added to stock");
+            WriteLine($"Amount: {newItemStock}");
+            WriteLine("===============================");
+            return new Game(newItemID, newItemName, newItemPrice, newItemRating, newItemStock);
+        }
+
+        public static Game? searchByID()
+        {
+            WriteLine("Please enter the item ID: ");
+            int searchItemID = Convert.ToInt32(ReadLine());
+
+            List<Game> gameListForSearch = CreateGameList();
+            foreach (Game game in gameListForSearch)
+            {
+                if (game.GetItemNumber() == searchItemID)
+                {
+                    Clear();
+                    WriteLine("        Search Results      ");
+                    WriteLine("===============================");
+                    WriteLine($"{game.GetItemName()}");
+                    WriteLine($"Price: {game.GetPrice()}");
+                    WriteLine($"Rating: {game.GetUserRating()}");
+                    WriteLine($"In Stock: {game.GetQuantity()}");
+                    WriteLine("===============================");
+
+                    return game;
+                }
+            }
+            // If no such game
+            WriteLine("Game not found.");
+            return null;
+        }
+
+        public static void searchByPrice()
+        {
+            WriteLine("Please enter max price: ");
+            decimal searchMaxPrice = Convert.ToDecimal(ReadLine());
+
+
+            List<Game> gameListForSearch = CreateGameList();
+            Clear();
+            WriteLine("        Search Results      ");
+            WriteLine("===============================");
+            foreach (Game game in gameListForSearch)
+            {
+                if (game.GetPrice() < searchMaxPrice)
+                {
+                    WriteLine(game.GetItemName());
+                    WriteLine($"Price: {game.GetPrice()}");
+                    WriteLine($"Rating: {game.GetUserRating()}");
+                    WriteLine($"In Stock: {game.GetQuantity()}");
+                    WriteLine("===============================");
+                }
+            }
+        }
+
+        public static void Analytics()
+        {
+            List<Game> gameList = CreateGameList();
+            gameList.Sort((g1, g2) => g1.GetPrice().CompareTo(g2.GetPrice()));
+            decimal priceTotal = 0;
+            foreach (Game game in gameList)
+            {
+                priceTotal += game.GetPrice();
+            }
+            Clear();
+            WriteLine("         Shop Analytics Dashboard");
+            WriteLine("==============================================");
+            WriteLine($"Total Games in Inventory : {gameList.Count}");
+            WriteLine($"Our Price Range          : ${gameList[0].GetPrice():F2} - ${gameList[gameList.Count - 1].GetPrice():F2}");
+            WriteLine($"Average Game Price       : ${priceTotal / gameList.Count:F2}");
+            WriteLine($"Highest Priced Game      : {gameList[gameList.Count - 1].GetItemName()} (${gameList[gameList.Count - 1].GetPrice():F2})");
+            WriteLine($"Lowest Priced Game       : {gameList[0].GetItemName()} (${gameList[0].GetPrice():F2})");
+            WriteLine("==============================================");
+            WriteLine("Thank you for choosing our store!");
+        }
     }
 }
+/*===========================================Handle Data==========================================================*/
