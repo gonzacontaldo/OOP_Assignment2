@@ -1,3 +1,4 @@
 1001,Super Mario Odyssey,59.99,4.8,12
 1002,The Legend of Zelda,69.99,4.9,5
 1003,Minecraft,29.99,4.7,30
+1004, Metin2, 13, 10, 1

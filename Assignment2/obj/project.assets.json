@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/kindzmarauli/OOP_Assignment2/Assignment2/Assignment2.csproj",
+      "projectUniqueName": "/home/kindzmarauli/Projects/comp1202/OOP_Assignment2/Assignment2/Assignment2.csproj",
       "projectName": "Assignment2",
-      "projectPath": "/home/kindzmarauli/OOP_Assignment2/Assignment2/Assignment2.csproj",
+      "projectPath": "/home/kindzmarauli/Projects/comp1202/OOP_Assignment2/Assignment2/Assignment2.csproj",
       "packagesPath": "/home/kindzmarauli/.nuget/packages/",
-      "outputPath": "/home/kindzmarauli/OOP_Assignment2/Assignment2/obj/",
+      "outputPath": "/home/kindzmarauli/Projects/comp1202/OOP_Assignment2/Assignment2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/kindzmarauli/.nuget/NuGet/NuGet.Config"

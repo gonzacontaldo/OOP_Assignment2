@@ -368,7 +368,7 @@ namespace Assignment2
             {
                 WriteLine("Please enter item stock: ");
                 int.TryParse(ReadLine(), out newItemStock);
-                if (newItemStock == 0)
+                if (newItemStock <= 0)
                 {
                     WriteLine("Invalid stock. Try Again.\n\n");
                 }
