@@ -1,4 +1,10 @@
-﻿
+﻿//Gonzalo Contaldo 101567007
+//Berhan Erdogan 101591316
+//Beray Erdogan 101582362_
+
+
+
+
 using System;
 using System.Drawing;
 using System.IO;
